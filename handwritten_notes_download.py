@@ -338,14 +338,98 @@ URL = "https://amanviews.in/notes"
 #     "JEV Model",
 # ]
 
+# NOTES = [
+#     "Java Cheat Sheet complete",
+#     #"JavaScript interview questions",
+#     "Top 50 JavaScript interview questions",
+# ]
+
 NOTES = [
-    "Java Cheat Sheet complete",
-    #"JavaScript interview questions",
-    "Top 50 JavaScript interview questions",
+    # ============================================================
+    # 1. DEVOPS & CLOUD FUNDAMENTALS
+    # ============================================================
+    "DevOps Handwritten Notes",
+    "Cloud Computing",
+
+    # ============================================================
+    # 2. LINUX & OPERATING SYSTEMS
+    # ============================================================
+    "Linux Handbook Notes",
+    "Linux Cheat Sheet",
+
+    # ============================================================
+    # 3. VERSION CONTROL
+    # ============================================================
+    "Git & GitHub Handbook",
+
+    # ============================================================
+    # 4. CONTAINERIZATION - DOCKER
+    # ============================================================
+    "Docker Notes",
+    "Top 10 Docker Concepts",
+
+    # ============================================================
+    # 5. CONTAINER ORCHESTRATION - KUBERNETES
+    # ============================================================
+    "Kubernetes Notes",
+
+    # ============================================================
+    # 6. CI/CD AUTOMATION
+    # ============================================================
+    "Jenkins Notes",
+
+    # ============================================================
+    # 7. CLOUD PLATFORMS - AWS
+    # ============================================================
+    "AWS Notes",
+    "Aws S3 Notes",
+
+    # ============================================================
+    # 8. MONITORING & OBSERVABILITY
+    # ============================================================
+    "Grafana Notes",
+
+    # ============================================================
+    # 9. NETWORK & CLOUD SECURITY
+    # ============================================================
+    "Network security notes",
+    "Cloud security notes",
 ]
 
-OUTPUT_DIR = Path("downloaded_notes")
-OUTPUT_DIR.mkdir(exist_ok=True)
+NOTE_CATEGORIES = {
+    "DevOps Handwritten Notes": "01_Fundamentals",
+    "Cloud Computing": "01_Fundamentals",
+
+    "Linux Handbook Notes": "02_Linux",
+    "Linux Cheat Sheet": "02_Linux",
+
+    "Git & GitHub Handbook": "03_Version_Control",
+
+    "Docker Notes": "04_Docker",
+    "Top 10 Docker Concepts": "04_Docker",
+
+    "Kubernetes Notes": "05_Kubernetes",
+
+    "Jenkins Notes": "06_CI_CD",
+
+    "AWS Notes": "07_AWS",
+    "Aws S3 Notes": "07_AWS",
+
+    "Grafana Notes": "08_Monitoring",
+
+    "Network security notes": "09_Security",
+    "Cloud security notes": "09_Security",
+}
+
+
+BASE_DIR = Path("downloaded_notes")
+CATEGORY = "DevOps & Cloud"
+
+OUTPUT_DIR = BASE_DIR / CATEGORY
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# OUTPUT_DIR = Path("downloaded_notes")
+# OUTPUT_DIR.mkdir(exist_ok=True)
 
 WAIT_SECONDS = 30
 
@@ -655,8 +739,23 @@ def download_note(driver, note_name):
     print(f"Processing: {note_name}")
     print(f"{'=' * 60}")
 
-    folder = OUTPUT_DIR / safe_filename(note_name)
+    # folder = OUTPUT_DIR / safe_filename(note_name)
+    # folder.mkdir(parents=True, exist_ok=True)
+
+    subcategory = NOTE_CATEGORIES.get(note_name, "10_Other")
+
+    folder = (
+
+        OUTPUT_DIR
+
+        / subcategory
+
+        / safe_filename(note_name)
+
+    )
+
     folder.mkdir(parents=True, exist_ok=True)
+    
 
     # Open preview
     preview_button = WebDriverWait(
